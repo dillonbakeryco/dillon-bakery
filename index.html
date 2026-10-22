@@ -49,7 +49,8 @@ ul.items{list-style:none;margin:0;padding:0}
 ul.items li{display:flex;justify-content:space-between;gap:1.5rem;padding:1.4rem 0;border-bottom:1px solid var(--line)}
 .name{font-family:var(--serif);font-size:1.375rem;line-height:1.3}
 .desc{color:var(--soft);font-size:.975rem;margin-top:.15rem}
-.price{white-space:nowrap;font-weight:400}
+.price{white-space:nowrap;font-weight:400;text-align:right}
+.deal{display:block;color:var(--soft);font-size:.9rem;font-weight:300}
 
 .order p{margin:0 0 1.25rem}
 .contact{display:flex;flex-wrap:wrap;gap:.75rem;margin-top:2rem}
@@ -81,20 +82,18 @@ footer p{margin:.25rem 0}
     <div class="menu-block" id="menu-a">
       <div class="menu-head"><h3>Menu A</h3><span class="tag"></span></div>
       <ul class="items">
-        <li><div><div class="name">Sourdough loaf</div><div class="desc">Long-fermented country loaf with a blistered crust.</div></div><div class="price">$13</div></li>
-        <li><div><div class="name">Baguette</div><div class="desc">Crisp crust, open and tender crumb.</div></div><div class="price">$7</div></li>
-        <li><div><div class="name">Butter croissant</div><div class="desc">Laminated by hand, flaky and buttery.</div></div><div class="price">$5.50</div></li>
-        <li><div><div class="name">Chocolate chip cookie</div><div class="desc">Browned butter, dark chocolate, flaky salt.</div></div><div class="price">$5</div></li>
+        <li><div><div class="name">Sourdough loaf</div><div class="desc">Long-fermented country loaf with a blistered crust.</div></div><div class="price">$12</div></li>
+        <li><div><div class="name">Demi-baguette</div><div class="desc">Crisp crust, open and tender crumb.</div></div><div class="price">$4</div></li>
+        <li><div><div class="name">Chocolate chip cookie</div><div class="desc">Chewy with loads of chocolate, egg-free.</div></div><div class="price">$3.50<span class="deal">2 for $6</span></div></li>
       </ul>
     </div>
 
     <div class="menu-block" id="menu-b">
       <div class="menu-head"><h3>Menu B</h3><span class="tag"></span></div>
       <ul class="items">
-        <li><div><div class="name">Seeded sourdough</div><div class="desc">Sesame, sunflower, and flax in a tangy loaf.</div></div><div class="price">$14</div></li>
-        <li><div><div class="name">Pain au chocolat</div><div class="desc">Laminated dough around two bars of dark chocolate.</div></div><div class="price">$6</div></li>
-        <li><div><div class="name">Cinnamon morning bun</div><div class="desc">Soft, spiced, and lightly sweet.</div></div><div class="price">$5.50</div></li>
-        <li><div><div class="name">Oat cookie</div><div class="desc">Chewy, with brown sugar and toasted oats.</div></div><div class="price">$5</div></li>
+        <li><div><div class="name">Sourdough loaf</div><div class="desc">Long-fermented country loaf with a blistered crust.</div></div><div class="price">$12</div></li>
+        <li><div><div class="name">Demi-epi</div><div class="desc">Wheat-stalk shaped, crisp, and made for tearing.</div></div><div class="price">$4</div></li>
+        <li><div><div class="name">Oatmeal raisin cookie</div><div class="desc">Bryan's favorite cookie, egg-free.</div></div><div class="price">$3.50<span class="deal">2 for $6</span></div></li>
       </ul>
     </div>
   </section>
@@ -123,6 +122,7 @@ footer p{margin:.25rem 0}
 <script>
 /* EDIT THESE */
 var CONFIG = {
+  live: false,                      // set to true when ready to show pickup dates
   firstBakeDate: "2026-10-10",      // a Saturday: the first pickup of Menu A (YYYY-MM-DD)
   pickupWindow: "10:00 am to 12:00 pm",
   orderDeadline: "Wednesday at 8 pm",
@@ -140,6 +140,13 @@ var CONFIG = {
   document.getElementById("btn-text").href = "sms:" + CONFIG.phone;
   document.getElementById("btn-email").href = "mailto:" + CONFIG.email + "?subject=" + encodeURIComponent("Pre-order");
   document.getElementById("btn-venmo").href = "https://venmo.com/u/" + CONFIG.venmo;
+
+  // before launch: hide dates
+  if (!CONFIG.live) {
+    var pre = document.getElementById("status");
+    pre.innerHTML = '<p class="when">Opening soon</p><p class="small">Pickup dates will be announced here.</p>';
+    return;
+  }
 
   // schedule: bake every 14 days, alternating Menu A and Menu B
   var now = new Date(); var today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
